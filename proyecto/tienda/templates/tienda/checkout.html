@@ -1,0 +1,83 @@
+{% extends 'tienda/index.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-lg-6">
+		<div class="box-element" id="form-wrapper">
+
+            <form action="" id="form">
+                <div id="user-info">
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="name" placeholder="Nombre...">
+                    </div>
+
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="email" placeholder="Email...">
+                    </div>
+                    
+
+
+
+                </div>
+
+                <div id="shipping-info">
+                    <hr>
+                    <p>Informacion de Envio:</p>
+                    <hr>
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="adress" placeholder="Direccion...">
+                    </div>
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="city" placeholder="Ciudad...">
+                    </div>
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="state" placeholder="Provincia...">
+                    </div>
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="zipcode" placeholder="Codigo Postal...">
+                    </div>
+                    <div class="form-field">
+                        <input type="text" required class="form-control" name="country" placeholder="Pais...">
+                    </div>
+                </div>
+
+                <hr>
+                
+                <input type="text" id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+
+            </form>
+
+        </div>
+        
+        <br>
+		<div class="box-element hidden" id="payment-info">
+			<small>Paypal Options</small>
+		</div>
+		
+	</div>
+
+	<div class="col-lg-6">
+        <div class="box-element">
+            <a  class="btn btn-outline-dark" href="{% url 'carrito' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <h3>Resumen de compra</h3>
+            <hr>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+                <div style="flex:2"><p>{{item.product.name}}</p></div>
+                <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+                <div style="flex:1"><p>x{{item.quantity}}</p></div>
+            </div>
+            {% endfor %}
+
+            <h5>Items:   {{order.get_cart_items}}</h5>
+            <h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
+        </div>
+	</div>
+</div>
+
+{% endblock %}
