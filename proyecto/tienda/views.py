@@ -16,7 +16,7 @@ def tienda(request):
     
     else: #Si el usuario no esta logeado
         items = []
-        order = {'get_cart_total':0,'get_cart_items':0}
+        order = {'get_cart_total':0,'get_cart_items':0, 'shipping':False}
         cartItems = order['get_cart_items']
 
     products = Product.objects.all()
@@ -35,12 +35,15 @@ def carrito(request):
     
     else: #Si el usuario no esta logeado
         items = []
-        order = {'get_cart_total':0,'get_cart_items':0}
+        order = {'get_cart_total':0,'get_cart_items':0, 'shipping':False}
         cartItems = order['get_cart_items']
 
     context = {'items':items, 'order':order, 'cartItems':cartItems}
 
     return render(request, 'tienda/carrito.html', context)
+
+
+
 
 def checkout(request):
     
@@ -53,7 +56,7 @@ def checkout(request):
     
     else: #Si el usuario no esta logeado
         items = []
-        order = {'get_cart_total':0,'get_cart_items':0}
+        order = {'get_cart_total':0,'get_cart_items':0, 'shipping':False}
         cartItems = order['get_cart_items']
 
     context = {'items':items, 'order':order, 'cartItems':cartItems}
@@ -63,9 +66,10 @@ def checkout(request):
     return render(request, 'tienda/checkout.html', context)
 
 def updateItem(request):
-    data = json.loads(request.data)
+    data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
+
     print('Action:', action)
     print('productId:', productId)
 
@@ -86,3 +90,7 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('El item fue agregado', safe=False)
+
+
+#from django.views.decorators.csrf import csrf_exempt    
+#@csrf_exempt
